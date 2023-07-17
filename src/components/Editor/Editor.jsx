@@ -29,7 +29,9 @@ const Editor = () => {
     const doc = new Y.Doc();
     doc.clientID = randomInt(0, 100);
 
-    const provider = new WebrtcProvider(room, doc);
+    const provider = new WebrtcProvider(room, doc, {
+      signaling: ["ws://localhost:4444"],
+    });
     const type = doc.getText("monaco");
     const awareness = provider.awareness;
 
