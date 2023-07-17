@@ -11,10 +11,6 @@ const MembersSidebar = () => {
         <img src={img_url} className="rounded-lg object-cover h-8 w-8" />
         <span>Charlie Puth</span>
       </div>
-      <div className="flex items-center gap-3">
-        <img src={img_url} className="rounded-lg object-cover h-8 w-8" />
-        <span>Braj Dangi</span>
-      </div>
     </div>
   );
 };

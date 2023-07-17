@@ -1,5 +1,4 @@
 const SingleItem = ({ title, Icon, active, onClick }) => {
-  console.log(title);
   return (
     <div
       onClick={onClick}

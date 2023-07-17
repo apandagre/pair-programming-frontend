@@ -50,7 +50,6 @@ const EditorHeader = ({ link }) => {
 
       <ShareModal
         onClose={() => {
-          console.log("closing..");
           setIsOpen(() => setIsOpen(false));
         }}
         isOpen={isOpen}
