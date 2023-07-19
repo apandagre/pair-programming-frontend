@@ -9,9 +9,23 @@ import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
 import { useState } from "react";
 import MembersSidebar from "../components/MembersSidebar/MembersSidebar";
 import SettingsSidebar from "../components/SettingsSidebar/SettingsSidebar";
+import { useHotkeys } from "react-hotkeys-hook";
+import useSidebarShortcuts from "./hooks/useSidebarShortcuts";
 
 const Playground = () => {
   const [activeSidebar, setActiveSidebar] = useState("members"); // "members" | "settings"
+
+  const [openSidebar, setOpenSidebar] = useState(true);
+
+  const setSidebar = (sidebar) => {
+    if (activeSidebar === sidebar) setOpenSidebar(!openSidebar);
+    else {
+      setActiveSidebar(sidebar);
+      setOpenSidebar(true);
+    }
+  };
+
+  useSidebarShortcuts(setSidebar, activeSidebar);
 
   return (
     <div className="h-full flex flex-col">
@@ -22,9 +36,9 @@ const Playground = () => {
       />
       <ReflexContainer className="flex flex-1" orientation="vertical">
         <ReflexElement className="w-fit" flex={0} resizeWidth={false}>
-          <ActivityBar active={activeSidebar} setSidebar={setActiveSidebar} />
+          <ActivityBar active={activeSidebar} setSidebar={setSidebar} />
         </ReflexElement>
-        <ReflexElement className="h-full min-w-0" flex={0.15}>
+        <ReflexElement className="h-full min-w-0" flex={openSidebar ? 0.15 : 0}>
           <SidebarContainer title={activeSidebar}>
             {activeSidebar == "members" ? (
               <MembersSidebar />

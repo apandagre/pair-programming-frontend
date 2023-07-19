@@ -29,9 +29,9 @@ const Editor = () => {
     const doc = new Y.Doc();
     doc.clientID = randomInt(0, 100);
 
-    // https://pair-programming-signaling-server.onrender.com
+    // wss://pair-programming-signaling-server.onrender.com - donesn't work :(
     const provider = new WebrtcProvider(room, doc, {
-      signaling: ["wss://pair-programming-signaling-server.onrender.com"],
+      signaling: ["ws://localhost:4444"],
     });
     const type = doc.getText("monaco");
     const awareness = provider.awareness;

@@ -7,6 +7,7 @@ import { BsTriangleFill } from "react-icons/bs";
 import Modal from "../Modal/Modal";
 import ShareModal from "./ShareModal";
 import { GoTriangleDown } from "react-icons/go";
+import LanguageDropdown from "./LanguageDropdown";
 
 const EditorHeader = ({ link }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,13 +26,7 @@ const EditorHeader = ({ link }) => {
         <span className="text-lg">the-gray-space</span>
       </div>
       <div className="flex items-center gap-3">
-        <button
-          onClick={() => {}}
-          className="my-1 flex items-center gap-2 rounded-lg bg-[#161616] py-2 px-4 text-sm text-white ring-1 ring-gray-600 hover:bg-white hover:text-[#161616]"
-        >
-          <span className="text-lg">Python</span>
-          <GoTriangleDown size={20} />
-        </button>
+        {/* <LanguageDropdown /> */}
         <button
           onClick={() => console.log("run code")}
           className="my-1 flex items-center gap-3 rounded-lg bg-green-700 py-2 px-4 text-sm text-white ring-1 ring-gray-600 hover:bg-white hover:text-[#161616]"

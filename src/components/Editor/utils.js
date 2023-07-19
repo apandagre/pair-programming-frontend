@@ -4,6 +4,7 @@ export function addCursor(username, clientId, color) {
       .yRemoteSelection-${clientId} {
           background-color: ${color};
       }
+      
       .yRemoteSelectionHead-${clientId} {
           position: absolute;
           border-left: ${color} solid 2px;
@@ -12,9 +13,10 @@ export function addCursor(username, clientId, color) {
           height: 100%;
           box-sizing: border-box;
       }
+
       .yRemoteSelectionHead-${clientId}::after {
           position: absolute;
-          content: ' ';
+          content: '';
           border: 3px solid ${color};
           border-radius: 4px;
           left: -4px;
