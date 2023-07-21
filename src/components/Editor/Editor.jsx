@@ -5,6 +5,7 @@ import { MonacoBinding } from "y-monaco";
 import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import { addCursor, randomColor, randomInt } from "./utils";
+import { useSelector } from "react-redux";
 
 const Editor = () => {
   const editorRef = useRef(null);
@@ -31,7 +32,7 @@ const Editor = () => {
 
     // wss://pair-programming-signaling-server.onrender.com - donesn't work :(
     const provider = new WebrtcProvider(room, doc, {
-      signaling: ["ws://localhost:4444", "wss://pair-programming-signaling-server-kappa.vercel.app/"],
+      signaling: ["ws://localhost:4444"],
     });
     const type = doc.getText("monaco");
     const awareness = provider.awareness;
@@ -63,17 +64,22 @@ const Editor = () => {
     });
   }
 
+  const editorState = useSelector((state) => state.editor);
+
   return (
     <MonacoEditor
       defaultLanguage="javascript"
       onMount={editorMount}
       value={"console.log('hi mom');"}
       options={{
-        fontSize: 18,
+        fontSize: editorState.fontSize,
         minimap: {
-          enabled: false,
+          enabled: editorState.minimap,
         },
+        wordWrap: editorState.wordWrap,
+        lineNumbers: editorState.lineNumbers,
         padding: { top: 1 },
+        tabSize: editorState.tabSize,
       }}
     />
   );

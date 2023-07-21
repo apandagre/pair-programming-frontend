@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
 import ActivityBar from "../components/ActivityBar/ActivityBar";
 import Editor from "../components/Editor/Editor";
@@ -10,6 +11,7 @@ import MembersSidebar from "../components/MembersSidebar/MembersSidebar";
 import SettingsSidebar from "../components/SettingsSidebar/SettingsSidebar";
 import SidebarContainer from "../components/Sidebar/SidebarContainer";
 import useSidebarShortcuts from "./hooks/useSidebarShortcuts";
+import AgoraRTC from "agora-rtc-sdk-ng";
 
 const Playground = () => {
   const [activeSidebar, setActiveSidebar] = useState("members"); // "members" | "settings"
@@ -26,8 +28,62 @@ const Playground = () => {
 
   useSidebarShortcuts(setSidebar, activeSidebar);
 
+  const appId = "9b263c24e94f4a85a48a1557ac779359";
+  const token = null;
+  const rtcUid = Math.floor(Math.random() * 2032);
+
+  let roomId = "main";
+
+  let audioTracks = {
+    localAudioTrack: null,
+    remoteAudioTracks: {},
+  };
+
+  let rtcClient;
+
+  let handleUserJoined = async (user) => {
+    console.log("[userJoined]", user);
+  };
+
+  let handleUserPublished = async (user, mediaType) => {
+    await rtcClient.subscribe(user, mediaType);
+    if(mediaType === "audio") {
+      audioTracks.remoteAudioTracks[user.uid] = [user.audioTrack]
+      user.audioTrack.play()
+    }
+  };
+
+  let initRtc = async () => {
+    rtcClient = AgoraRTC.createClient({
+      mode: "rtc",
+      codec: "vp8",
+    });
+    rtcClient.on("user-joined", handleUserJoined);
+    rtcClient.on("user-published", handleUserPublished);
+
+    await rtcClient.join(appId, roomId, token, rtcUid);
+
+    audioTracks.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+
+    rtcClient.publish(audioTracks.localAudioTrack);
+  };
+
+  useEffect(() => {
+    window.onload = initRtc;
+
+    return () => {
+      if (!audioTracks.localAudioTrack) return;
+      audioTracks.localAudioTrack.stop();
+      audioTracks.localAudioTrack.close();
+
+      rtcClient.unpublish();
+      rtcClient.leave();
+    };
+  }, []);
+
   return (
     <div className="h-full flex flex-col">
+      <div id={rtcUid} className="hidden"></div>
       <EditorHeader
         link={
           "https://codehub.com/join/invite-code-link-one-more-againhttps://codehub.com/join/invite-code-link-one-more-again"
