@@ -1,7 +1,13 @@
-const Output = () => {
-  return (
-    <div className="px-6 py-4">output comes here..</div>
-  )
-}
+import { useSelector } from "react-redux";
 
-export default Output
+const Output = () => {
+  const { output } = useSelector((state) => state.editor);
+
+  return (
+    <div className="w-full h-full">
+      <div className="px-6 py-4 whitespace-pre-wrap">{output}</div>
+    </div>
+  );
+};
+
+export default Output;

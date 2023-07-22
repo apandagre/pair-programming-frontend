@@ -1,13 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  language: "javascript",
+  language: "python",
+  value: "",
   wordWrap: "off",
   lineNumbers: "on",
   minimap: false,
   fontSize: 18,
   usernameOnCursor: true,
   tabSize: 2,
+  input: "",
+  output: "",
+  language: "",
 };
 
 export const editorSlice = createSlice({
@@ -41,6 +45,22 @@ export const editorSlice = createSlice({
     setTabSize: (state, action) => {
       state.tabSize = action.payload;
     },
+
+    setEditorValue: (state, action) => {
+      state.value = action.payload;
+    },
+
+    setInput: (state, action) => {
+      state.input = action.payload;
+    },
+
+    setLanguage: (state, action) => {
+      state.language = action.payload;
+    },
+
+    setOuput: (state, action) => {
+      state.output = action.payload;
+    },
   },
 });
 
@@ -51,6 +71,10 @@ export const {
   toggleMinimap,
   setFontSize,
   setTabSize,
+  setEditorValue,
+  setInput,
+  setLanguage,
+  setOuput,
 } = editorSlice.actions;
 
 export default editorSlice.reducer;

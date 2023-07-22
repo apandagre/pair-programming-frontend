@@ -5,10 +5,12 @@ import { MonacoBinding } from "y-monaco";
 import { WebrtcProvider } from "y-webrtc";
 import * as Y from "yjs";
 import { addCursor, randomColor, randomInt } from "./utils";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setEditorValue } from "../../redux/editor/editorSlice";
 
 const Editor = () => {
   const editorRef = useRef(null);
+  const dispatch = useDispatch();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -65,12 +67,18 @@ const Editor = () => {
   }
 
   const editorState = useSelector((state) => state.editor);
+  console.log(editorState);
+
+  const onChange = (value) => {
+    dispatch(setEditorValue(value));
+  };
 
   return (
     <MonacoEditor
-      defaultLanguage="javascript"
+      defaultLanguage={editorState.language}
       onMount={editorMount}
       value={"console.log('hi mom');"}
+      onChange={onChange}
       options={{
         fontSize: editorState.fontSize,
         minimap: {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
 import ActivityBar from "../components/ActivityBar/ActivityBar";
 import Editor from "../components/Editor/Editor";
@@ -10,8 +10,11 @@ import MembersSidebar from "../components/MembersSidebar/MembersSidebar";
 import SettingsSidebar from "../components/SettingsSidebar/SettingsSidebar";
 import SidebarContainer from "../components/Sidebar/SidebarContainer";
 import useSidebarShortcuts from "./hooks/useSidebarShortcuts";
+import { useDispatch } from "react-redux";
+import { setLanguage } from "../redux/editor/editorSlice";
 
 const Playground = () => {
+  const dispatch = useDispatch();
   const [activeSidebar, setActiveSidebar] = useState("members"); // "members" | "settings"
 
   const [openSidebar, setOpenSidebar] = useState(true);
@@ -25,6 +28,10 @@ const Playground = () => {
   };
 
   useSidebarShortcuts(setSidebar, activeSidebar);
+
+  useEffect(() => {
+    dispatch(setLanguage("python"));
+  });
 
   return (
     <div className="h-full flex flex-col">
