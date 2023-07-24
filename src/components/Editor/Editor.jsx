@@ -34,7 +34,7 @@ const Editor = () => {
 
     // wss://pair-programming-signaling-server.onrender.com - donesn't work :(
     const provider = new WebrtcProvider(room, doc, {
-      signaling: ["ws://localhost:4444"],
+      signaling: ["ws://localhost:4444", "wss://signaling.chadburn.app:443"],
     });
     const type = doc.getText("monaco");
     const awareness = provider.awareness;

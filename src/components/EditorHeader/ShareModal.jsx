@@ -38,7 +38,7 @@ const ShareModal = ({ onClose, isOpen, link }) => {
           <div className="border px-1 pl-[10px] py-1 w-full flex items-center gap-2 border-gray-500 rounded-md justify-between">
             <div className="flex items-center gap-2 w-full grow-0 whitespace-nowrap overflow-hidden overflow-ellipsis">
               <HiLink size={20} />
-              <span className="whitespace-nowrap overflow-hidden overflow-ellipsis">
+              <span className="whitespace-nowrap overflow-hidden overflow-ellipsis select-all">
                 {link}
               </span>
             </div>

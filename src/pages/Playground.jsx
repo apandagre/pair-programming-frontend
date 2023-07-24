@@ -37,7 +37,7 @@ const Playground = () => {
     <div className="h-full flex flex-col">
       <EditorHeader
         link={
-          "https://codehub.com/join/invite-code-link-one-more-againhttps://codehub.com/join/invite-code-link-one-more-again"
+          "https://http://localhost:5173/playground?invite-code-link-one-more-again"
         }
       />
       <ReflexContainer className="flex flex-1" orientation="vertical">
