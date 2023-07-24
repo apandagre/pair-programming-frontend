@@ -1,9 +1,10 @@
 import { Editor as MonacoEditor } from "@monaco-editor/react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { setEditorValue } from "../../redux/editor/editorSlice";
 import collaborationSetup from "./collaborationSetup";
+import { addMember } from "../../redux/room/roomSlice";
 
 const Editor = () => {
   const editorRef = useRef(null);
@@ -12,6 +13,13 @@ const Editor = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const room = queryParams.get("room");
+
+  useEffect(() => {
+    dispatch(addMember({
+      name: 'Your self',
+      id: 'your-self'
+    }))
+  }, [])
 
   function editorMount(editor, monaco) {
     editorRef.current = editor;
@@ -26,7 +34,7 @@ const Editor = () => {
 
     // https://github.com/yjs/y-monaco
 
-    collaborationSetup(room, editorRef);
+    collaborationSetup(room, editorRef, dispatch);
   }
 
   const editorState = useSelector((state) => state.editor);

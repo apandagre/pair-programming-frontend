@@ -4,7 +4,7 @@ const Output = () => {
   const { output } = useSelector((state) => state.editor);
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full bg-[#161616]">
       <div className="px-6 py-4 whitespace-pre-wrap">{output}</div>
     </div>
   );

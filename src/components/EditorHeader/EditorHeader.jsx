@@ -9,7 +9,7 @@ import ShareModal from "./ShareModal";
 import useEditorShortcuts from "../../pages/hooks/useEditorShortcuts";
 import runCode from "./runCode";
 
-const EditorHeader = ({ link, roomName, language }) => {
+const EditorHeader = ({ roomName, language }) => {
   const [isOpen, setIsOpen] = useState(false);
   const editor = useSelector((state) => state.editor);
   const dispatch = useDispatch();
@@ -28,14 +28,15 @@ const EditorHeader = ({ link, roomName, language }) => {
         <span className="text-lg font-semibold">Name</span>
       </div>
       <div>
-        <span className="text-lg">
-          {roomName} ({language})
-        </span>
+        <p className="text-lg space-x-3">
+          <span>{roomName}</span>
+          <span className="bg-zinc-600 text-zinc-300 items-center text-sm px-[6px] rounded-md py-[2px]">{language}</span> 
+        </p>
       </div>
       <div className="flex items-center gap-3">
         {/* <LanguageDropdown /> */}
         <button
-          onClick={runCode}
+          onClick={_runCode}
           className="my-1 flex items-center gap-3 rounded-lg bg-green-700 py-2 px-4 text-sm text-white ring-1 ring-gray-600 hover:bg-white hover:text-[#161616]"
         >
           <BsTriangleFill size={16} className="rotate-90" />
@@ -55,7 +56,7 @@ const EditorHeader = ({ link, roomName, language }) => {
           setIsOpen(() => setIsOpen(false));
         }}
         isOpen={isOpen}
-        link={link}
+        link={window.location.href}
       />
     </div>
   );

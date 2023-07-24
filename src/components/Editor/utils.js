@@ -1,5 +1,4 @@
 export function addCursor(username, clientId, color) {
-  console.log(username, clientId, color);
   const styles = `
       .yRemoteSelection-${clientId} {
           background-color: ${color};

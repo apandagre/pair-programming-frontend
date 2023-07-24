@@ -1,9 +1,10 @@
 import * as Y from "yjs";
-import { randomColor, randomInt } from "./utils";
+import { addCursor, randomColor, randomInt } from "./utils";
 import { WebrtcProvider } from "y-webrtc";
 import { MonacoBinding } from "y-monaco";
+import { addMember } from "../../redux/room/roomSlice";
 
-export default function (room, editorRef) {
+export default function (room, editorRef, dispatch) {
   const doc = new Y.Doc();
   doc.clientID = randomInt(0, 100);
 
@@ -29,6 +30,14 @@ export default function (room, editorRef) {
     for (let id of action.added) {
       let { user } = awareness.getStates().get(id);
       addCursor(user.name, id, user.color);
+      console.log(user.name, "added");
+      dispatch(
+        addMember({
+          name: user.name,
+          id: id,
+          color: user.color,
+        })
+      );
     }
 
     for (let id of action.removed) {

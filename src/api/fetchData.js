@@ -1,7 +1,7 @@
 const fetchData = async (endpoint, method, body) => {
   try {
     const token =
-      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhc2hpc2hAZ21haWwuY29tIiwiZXhwIjoxNjkwMTkzNDY0LCJpYXQiOjE2OTAxODk4NjR9.g-Ye1Z7yLI-RS0KPa02Vqn1f9GxsaAMBnKVspnUshRg";
+      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhc2hpc2hAZ21haWwuY29tIiwiZXhwIjoxNjkwMjA0Mzk0LCJpYXQiOjE2OTAyMDA3OTR9.I-GRpOLXXOhUrHP43tK7incQir_nXwiPQic_cRFP70Y";
     const response = await fetch(`http://localhost:8080${endpoint}`, {
       method,
       headers: {

@@ -36,8 +36,6 @@ const Playground = () => {
   useSidebarShortcuts(setSidebar, activeSidebar);
 
   useEffect(() => {
-    // room information..
-
     const getRoomInfo = async () => {
       const _roomInfo = await fetchData(`/room/${room}`);
       console.log(_roomInfo);
@@ -58,8 +56,8 @@ const Playground = () => {
         link={
           "https://http://localhost:5173/playground?invite-code-link-one-more-again"
         }
-        roomName={roomInfo?.name}
-        language={roomInfo?.language}
+        roomName={roomInfo && roomInfo.name}
+        language={roomInfo && roomInfo.language}
       />
       <ReflexContainer className="flex flex-1" orientation="vertical">
         <ReflexElement className="w-fit" flex={0} resizeWidth={false}>
@@ -91,7 +89,7 @@ const Playground = () => {
 
             <ReflexSplitter className="bg-[#363636] h-[5px] cursor-row-resize hover:bg-cyan-700" />
 
-            <ReflexElement className="w-full h-full">
+            <ReflexElement className="min-w-0">
               <Output />
             </ReflexElement>
           </ReflexContainer>
