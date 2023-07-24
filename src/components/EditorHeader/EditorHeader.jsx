@@ -1,68 +1,25 @@
 import { useEffect, useState } from "react";
-import { AiOutlineShareAlt, AiOutlineWhatsApp } from "react-icons/ai";
-import { FaPaw } from "react-icons/fa";
-import { CgMail } from "react-icons/cg";
-import { HiLink } from "react-icons/hi";
+import { AiOutlineShareAlt } from "react-icons/ai";
 import { BsTriangleFill } from "react-icons/bs";
-import Modal from "../Modal/Modal";
-import ShareModal from "./ShareModal";
-import { GoTriangleDown } from "react-icons/go";
-import LanguageDropdown from "./LanguageDropdown";
+import { FaPaw } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import fetchData from "../../api/fetchData";
 import { setOuput } from "../../redux/editor/editorSlice";
+import ShareModal from "./ShareModal";
+import useEditorShortcuts from "../../pages/hooks/useEditorShortcuts";
+import runCode from "./runCode";
 
-const EditorHeader = ({ link }) => {
+const EditorHeader = ({ link, roomName, language }) => {
   const [isOpen, setIsOpen] = useState(false);
   const editor = useSelector((state) => state.editor);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log("isOpen? ", isOpen);
-  }, [isOpen]);
-
-  const runCode = async () => {
-    const { language, value, input } = editor;
-    console.log(language, value, input);
-
-    //   {
-    //     "language": "python",
-    //     "stdin": "Peter",
-    //     "files": [
-    //         {
-    //             "name": "index.py",
-    //             "content": "import sys\nname = sys.stdin.readline()\nprint('Hello '+ name)"
-    //         }
-    //     ]
-    // }
-
-    const sample = {
-      language: language,
-      stdin: input,
-      files: [
-        {
-          name: "index.py",
-          content: value,
-        },
-      ],
-    };
-
-    const response = await fetch("http://localhost:8080/compile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhc2hpc2hAZ21haWwuY29tIiwiZXhwIjoxNjkwMTc4NjQ3LCJpYXQiOjE2OTAxNzUwNDd9.y5nujG2ZAVk5FOARzzHCkBQ-PNoqaU0GQXRNsGLK0Nc",
-      },
-      body: JSON.stringify(sample),
-    });
-
-    const data = await response.json();
-
-    console.log(response, data);
-
-    if (data.exception) dispatch(setOuput(data.exception));
-    else dispatch(setOuput(data.stdout));
+  const _runCode = async () => {
+    const result = await runCode(editor);
+    dispatch(setOuput(result));
   };
+
+  useEditorShortcuts(_runCode);
 
   return (
     <div className="sticky flex items-center justify-between border border-[#252528] bg-[#191919] px-8 py-1 text-white">
@@ -71,7 +28,9 @@ const EditorHeader = ({ link }) => {
         <span className="text-lg font-semibold">Name</span>
       </div>
       <div>
-        <span className="text-lg">the-gray-space</span>
+        <span className="text-lg">
+          {roomName} ({language})
+        </span>
       </div>
       <div className="flex items-center gap-3">
         {/* <LanguageDropdown /> */}

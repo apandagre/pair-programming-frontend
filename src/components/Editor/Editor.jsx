@@ -1,11 +1,7 @@
 import { Editor as MonacoEditor } from "@monaco-editor/react";
 import { useRef } from "react";
-import { useLocation } from "react-router-dom";
-import { MonacoBinding } from "y-monaco";
-import { WebrtcProvider } from "y-webrtc";
-import * as Y from "yjs";
-import { addCursor, randomColor, randomInt } from "./utils";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { setEditorValue } from "../../redux/editor/editorSlice";
 import collaborationSetup from "./collaborationSetup";
 
@@ -34,7 +30,6 @@ const Editor = () => {
   }
 
   const editorState = useSelector((state) => state.editor);
-  console.log(editorState);
 
   const onChange = (value) => {
     dispatch(setEditorValue(value));
