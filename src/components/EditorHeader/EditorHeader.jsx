@@ -51,7 +51,7 @@ const EditorHeader = ({ link }) => {
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhc2hpc2hAZ21haWwuY29tIiwiZXhwIjoxNjkwMDEwNDI5LCJpYXQiOjE2OTAwMDY4Mjl9.ckiAnmGLL94UqbCow4JByNDLLc4ZTgbYZ0v4cvvAfnw",
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhc2hpc2hAZ21haWwuY29tIiwiZXhwIjoxNjkwMTc4NjQ3LCJpYXQiOjE2OTAxNzUwNDd9.y5nujG2ZAVk5FOARzzHCkBQ-PNoqaU0GQXRNsGLK0Nc",
       },
       body: JSON.stringify(sample),
     });

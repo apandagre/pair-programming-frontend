@@ -7,6 +7,7 @@ import * as Y from "yjs";
 import { addCursor, randomColor, randomInt } from "./utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setEditorValue } from "../../redux/editor/editorSlice";
+import collaborationSetup from "./collaborationSetup";
 
 const Editor = () => {
   const editorRef = useRef(null);
@@ -29,41 +30,7 @@ const Editor = () => {
 
     // https://github.com/yjs/y-monaco
 
-    const doc = new Y.Doc();
-    doc.clientID = randomInt(0, 100);
-
-    // wss://pair-programming-signaling-server.onrender.com - donesn't work :(
-    const provider = new WebrtcProvider(room, doc, {
-      signaling: ["ws://localhost:4444", "wss://signaling.chadburn.app:443"],
-    });
-    const type = doc.getText("monaco");
-    const awareness = provider.awareness;
-
-    console.log("clientId = ", doc.clientID);
-
-    awareness.setLocalStateField("user", {
-      name: "user-" + doc.clientID,
-      color: randomColor(),
-    });
-
-    const binding = new MonacoBinding(
-      type,
-      editorRef.current.getModel(),
-      new Set([editorRef.current]),
-      awareness
-    );
-
-    awareness.on("update", (action) => {
-      for (let id of action.added) {
-        let { user } = awareness.getStates().get(id);
-        addCursor(user.name, id, user.color);
-      }
-
-      for (let id of action.removed) {
-        let userObj = awareness.getStates().get(id);
-        // if possible, remove the particular style element..
-      }
-    });
+    collaborationSetup(room, editorRef);
   }
 
   const editorState = useSelector((state) => state.editor);
