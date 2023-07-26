@@ -46,6 +46,7 @@ const Editor = () => {
 
   const onChange = (value) => {
     dispatch(setEditorValue(value));
+    console.log(editorState);
   };
 
   return (

@@ -1,7 +1,7 @@
 const fetchData = async (endpoint, method, body, excludeToken) => {
   try {
-    const token =
-      "Bearer eyJ0eXAiOiJKV1QiLCJhciOiJIUzI1NiJ9.eyJpc3MiOiJhc2hpc2hAZ21haWwuY29tIiwiZXhwIjoxNjkwMzU1OTE0LCJpYXQiOjE2OTAzNTIzMTR9.CcL4bEBauN9kCEhI0p5MPAhsd_tvrHTuX41tUMYXNFM";
+    const _token = localStorage.getItem("token");
+    const token = `Bearer ${_token}`;
     let headers = {};
     if (excludeToken)
       headers = {
