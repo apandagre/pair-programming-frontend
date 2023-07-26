@@ -8,8 +8,6 @@ import Dashboard from "./pages/Dashboard";
 export default function App() {
   return (
     <div className="h-screen w-screen bg-[#161616] text-white font-sans selection:bg-[#0f3058]">
-      {/* hey */}
-      {/* <Playground /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
