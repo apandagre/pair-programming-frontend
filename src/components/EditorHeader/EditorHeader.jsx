@@ -9,12 +9,20 @@ import ShareModal from "./ShareModal";
 import useEditorShortcuts from "../../pages/hooks/useEditorShortcuts";
 import runCode from "./runCode";
 
-const EditorHeader = ({ roomName, language }) => {
+const EditorHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const editor = useSelector((state) => state.editor);
+  const { name } = useSelector((state) => state.room);
   const dispatch = useDispatch();
 
   const _runCode = async () => {
+    const { value } = editor;
+    console.log("editorValue", value);
+    const data = await fetchData(`/room/save/${name}`, "PATCH", value);
+
+    
+
+    console.log("after trying to save - ", data);
     const result = await runCode(editor);
     dispatch(setOuput(result));
   };
@@ -29,8 +37,10 @@ const EditorHeader = ({ roomName, language }) => {
       </div>
       <div>
         <p className="text-lg space-x-3">
-          <span>{roomName}</span>
-          <span className="bg-zinc-600 text-zinc-300 items-center text-sm px-[6px] rounded-md py-[2px]">{language}</span> 
+          <span>{name}</span>
+          <span className="bg-zinc-600 text-zinc-300 items-center text-sm px-[6px] rounded-md py-[2px]">
+            {editor.language}
+          </span>
         </p>
       </div>
       <div className="flex items-center gap-3">

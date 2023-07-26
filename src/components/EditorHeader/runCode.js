@@ -14,7 +14,7 @@ export default async function (editor) {
     ],
   };
 
-  const data = await fetchData("/compile", "POST", sample);
+  const data = await fetchData("/compile", "POST", JSON.stringify(sample));
 
   if (data.exception) return data.exception;
   else return data.stdout;

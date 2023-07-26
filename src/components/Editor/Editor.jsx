@@ -1,4 +1,4 @@
-import { Editor as MonacoEditor } from "@monaco-editor/react";
+import { Editor as MonacoEditor, useMonaco } from "@monaco-editor/react";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -9,19 +9,24 @@ import { addMember } from "../../redux/room/roomSlice";
 const Editor = () => {
   const editorRef = useRef(null);
   const dispatch = useDispatch();
+  const editorState = useSelector((state) => state.editor);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const room = queryParams.get("room");
 
   useEffect(() => {
-    dispatch(addMember({
-      name: 'Your self',
-      id: 'your-self'
-    }))
-  }, [])
+    dispatch(
+      addMember({
+        name: "Your self",
+        id: "your-self",
+      })
+    );
+  }, []);
 
   function editorMount(editor, monaco) {
+    console.log("[mounting editor..]", editorState);
+
     editorRef.current = editor;
 
     monaco?.editor.defineTheme("my-theme", {
@@ -35,31 +40,35 @@ const Editor = () => {
     // https://github.com/yjs/y-monaco
 
     collaborationSetup(room, editorRef, dispatch);
-  }
 
-  const editorState = useSelector((state) => state.editor);
+    editor.setValue(editorState.value);
+  }
 
   const onChange = (value) => {
     dispatch(setEditorValue(value));
   };
 
   return (
-    <MonacoEditor
-      defaultLanguage={editorState.language}
-      onMount={editorMount}
-      value={"console.log('hi mom');"}
-      onChange={onChange}
-      options={{
-        fontSize: editorState.fontSize,
-        minimap: {
-          enabled: editorState.minimap,
-        },
-        wordWrap: editorState.wordWrap,
-        lineNumbers: editorState.lineNumbers,
-        padding: { top: 1 },
-        tabSize: editorState.tabSize,
-      }}
-    />
+    <>
+      {editorState && editorState.language && (
+        <MonacoEditor
+          defaultLanguage={editorState.language}
+          onMount={editorMount}
+          onChange={onChange}
+          value={editorState.value}
+          options={{
+            fontSize: editorState.fontSize,
+            minimap: {
+              enabled: editorState.minimap,
+            },
+            wordWrap: editorState.wordWrap,
+            lineNumbers: editorState.lineNumbers,
+            padding: { top: 1 },
+            tabSize: editorState.tabSize,
+          }}
+        />
+      )}
+    </>
   );
 };
 

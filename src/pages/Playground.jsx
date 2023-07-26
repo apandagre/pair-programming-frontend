@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
+import { useLocation } from "react-router-dom";
+import fetchData from "../api/fetchData";
 import ActivityBar from "../components/ActivityBar/ActivityBar";
 import Editor from "../components/Editor/Editor";
 import EditorHeader from "../components/EditorHeader/EditorHeader";
@@ -9,11 +12,9 @@ import Log from "../components/Log/Log";
 import MembersSidebar from "../components/MembersSidebar/MembersSidebar";
 import SettingsSidebar from "../components/SettingsSidebar/SettingsSidebar";
 import SidebarContainer from "../components/Sidebar/SidebarContainer";
+import { setEditorValue, setLanguage } from "../redux/editor/editorSlice";
+import { setRoomName } from "../redux/room/roomSlice";
 import useSidebarShortcuts from "./hooks/useSidebarShortcuts";
-import { useDispatch } from "react-redux";
-import { setLanguage } from "../redux/editor/editorSlice";
-import { useLocation } from "react-router-dom";
-import fetchData from "../api/fetchData";
 
 const Playground = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,6 @@ const Playground = () => {
   const room = queryParams.get("room");
 
   const [activeSidebar, setActiveSidebar] = useState("members"); // "members" | "settings"
-  const [roomInfo, setRoomInfo] = useState(null);
   const [openSidebar, setOpenSidebar] = useState(true);
 
   const setSidebar = (sidebar) => {
@@ -37,18 +37,15 @@ const Playground = () => {
 
   useEffect(() => {
     const getRoomInfo = async () => {
-      const _roomInfo = await fetchData(`/room/${room}`);
-      console.log(_roomInfo);
-      setRoomInfo(_roomInfo);
+      const roomInfo = await fetchData(`/room/${room}`);
+      console.log("[roomInfo]", roomInfo);
+      dispatch(setLanguage(roomInfo.language));
+      dispatch(setRoomName(roomInfo.name));
+      dispatch(setEditorValue(roomInfo.code));
     };
 
     getRoomInfo();
   }, []);
-
-  useEffect(() => {
-    if (!roomInfo) return;
-    dispatch(setLanguage(roomInfo.language));
-  }, [roomInfo]);
 
   return (
     <div className="flex flex-col h-screen w-screen">
@@ -56,8 +53,6 @@ const Playground = () => {
         link={
           "https://http://localhost:5173/playground?invite-code-link-one-more-again"
         }
-        roomName={roomInfo && roomInfo.name}
-        language={roomInfo && roomInfo.language}
       />
       <ReflexContainer className="flex flex-1" orientation="vertical">
         <ReflexElement className="w-fit" flex={0} resizeWidth={false}>

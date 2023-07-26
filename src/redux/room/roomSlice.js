@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  name: "",
   members: [],
 };
 
@@ -12,9 +13,13 @@ export const roomSlice = createSlice({
       console.log("adding member", action.payload);
       state.members.push(action.payload);
     },
+
+    setRoomName: (state, action) => {
+      state.name = action.payload;
+    },
   },
 });
 
-export const { addMember } = roomSlice.actions;
+export const { addMember, setRoomName } = roomSlice.actions;
 
 export default roomSlice.reducer;
