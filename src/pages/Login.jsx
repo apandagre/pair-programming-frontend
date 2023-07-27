@@ -22,6 +22,7 @@ const Login = () => {
     if (!data.token) setError(data.message);
     else {
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data));
       navigate("/dashboard");
     }
   };

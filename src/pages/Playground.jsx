@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import fetchData from "../api/fetchData";
 import ActivityBar from "../components/ActivityBar/ActivityBar";
 import Editor from "../components/Editor/Editor";
@@ -21,6 +21,7 @@ const Playground = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const room = queryParams.get("room");
+  const navigate = useNavigate();
 
   const [activeSidebar, setActiveSidebar] = useState("members"); // "members" | "settings"
   const [openSidebar, setOpenSidebar] = useState(true);
@@ -39,6 +40,7 @@ const Playground = () => {
     const getRoomInfo = async () => {
       const roomInfo = await fetchData(`/room/${room}`);
       console.log("[roomInfo]", roomInfo);
+      if (!roomInfo.name) return navigate("/dashboard");
       dispatch(setLanguage(roomInfo.language));
       dispatch(setRoomName(roomInfo.name));
       dispatch(setEditorValue(roomInfo.code));
