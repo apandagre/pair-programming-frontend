@@ -36,8 +36,7 @@ const Dashboard = () => {
           setCreateModal({ open: false });
         }}
       />
-      <nav className="bg-black text-white h-14 w-screen border-b-[1px] border-solid border-gray-700"></nav>
-      <main className="bg-[#161616] w-screen  px-64 py-12">
+      <main className="bg-[#161616] w-screen  px-64 py-12 h-screen">
         <p className="text-white text-lg font-bold border-b-[1px] border-solid border-gray-700">
           CREATE PLAYGROUND
         </p>
