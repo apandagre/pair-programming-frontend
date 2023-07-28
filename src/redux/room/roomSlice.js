@@ -14,12 +14,19 @@ export const roomSlice = createSlice({
       state.members.push(action.payload);
     },
 
+    removeMember: (state, action) => {
+      console.log("removing member", action.payload);
+      state.members = state.members.filter(
+        (member) => member.id != action.payload
+      );
+    },
+
     setRoomName: (state, action) => {
       state.name = action.payload;
     },
   },
 });
 
-export const { addMember, setRoomName } = roomSlice.actions;
+export const { addMember, setRoomName, removeMember } = roomSlice.actions;
 
 export default roomSlice.reducer;

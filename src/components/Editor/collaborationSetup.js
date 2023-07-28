@@ -2,12 +2,12 @@ import * as Y from "yjs";
 import { addCursor, randomColor, randomInt } from "./utils";
 import { WebrtcProvider } from "y-webrtc";
 import { MonacoBinding } from "y-monaco";
-import { addMember } from "../../redux/room/roomSlice";
+import { addMember, removeMember } from "../../redux/room/roomSlice";
 
 export default function (room, editorRef, dispatch) {
   const doc = new Y.Doc();
   const user = JSON.parse(localStorage.getItem("user"));
-  doc.clientID = user.id;
+  doc.clientID = randomInt(1, 100);
 
   const provider = new WebrtcProvider(room, doc, {
     signaling: ["wss://signaling.chadburn.app:443"],
@@ -44,7 +44,9 @@ export default function (room, editorRef, dispatch) {
 
     for (let id of action.removed) {
       let userObj = awareness.getStates().get(id);
+      console.log("user removed..", userObj, id);
       // if possible, remove the particular style element..
+      dispatch(removeMember(id));
     }
   });
 }
