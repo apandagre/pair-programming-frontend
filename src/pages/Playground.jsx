@@ -37,14 +37,6 @@ const Playground = () => {
 
   useSidebarShortcuts(setSidebar, activeSidebar);
 
-  function sleep(ms) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, ms);
-    });
-  }
-
   useEffect(() => {
     const getRoomInfo = async () => {
       const roomInfo = await fetchData(`/room/${room}`);
@@ -52,8 +44,7 @@ const Playground = () => {
       if (!roomInfo.name) return navigate("/dashboard");
       dispatch(setLanguage(roomInfo.language));
       dispatch(setRoomName(roomInfo.name));
-      await sleep(3000);
-      if (!editorState.value) dispatch(setEditorValue(roomInfo.code));
+      dispatch(setEditorValue(roomInfo.code));
     };
 
     getRoomInfo();
