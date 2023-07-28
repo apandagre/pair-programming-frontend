@@ -6,7 +6,8 @@ import { addMember } from "../../redux/room/roomSlice";
 
 export default function (room, editorRef, dispatch) {
   const doc = new Y.Doc();
-  doc.clientID = randomInt(0, 100);
+  const user = JSON.parse(localStorage.getItem("user"));
+  doc.clientID = user.id;
 
   const provider = new WebrtcProvider(room, doc, {
     signaling: ["wss://signaling.chadburn.app:443"],
@@ -15,7 +16,7 @@ export default function (room, editorRef, dispatch) {
   const awareness = provider.awareness;
 
   awareness.setLocalStateField("user", {
-    name: "user-" + doc.clientID,
+    name: user.name,
     color: randomColor(),
   });
 
@@ -29,6 +30,7 @@ export default function (room, editorRef, dispatch) {
   awareness.on("update", (action) => {
     for (let id of action.added) {
       let { user } = awareness.getStates().get(id);
+      console.log(user);
       addCursor(user.name, id, user.color);
       console.log(user.name, "added");
       dispatch(
