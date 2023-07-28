@@ -106,6 +106,11 @@ const Login = () => {
             <!-- <div className="right bg-blue-600 w-1/2 h-screen">
     ​
             </div> --> */}
+
+      <div className="bg-[#161616] w-1/2 h-screen flex justify-center items-center relative">
+        <div className="bg-gradient-to-r from-green-600 to-blue-600 w-96 h-96 absolute rounded-full blur-3xl"></div>
+        <img src="./set.png" alt="" className="w-96 rounded-full z-10" />
+      </div>
     </div>
   );
 };
