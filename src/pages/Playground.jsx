@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
 import { useLocation, useNavigate } from "react-router-dom";
 import fetchData from "../api/fetchData";
@@ -19,6 +19,7 @@ import useSidebarShortcuts from "./hooks/useSidebarShortcuts";
 const Playground = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const editorState = useSelector((state) => state.editor);
   const queryParams = new URLSearchParams(location.search);
   const room = queryParams.get("room");
   const navigate = useNavigate();
@@ -36,6 +37,14 @@ const Playground = () => {
 
   useSidebarShortcuts(setSidebar, activeSidebar);
 
+  function sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, ms);
+    });
+  }
+
   useEffect(() => {
     const getRoomInfo = async () => {
       const roomInfo = await fetchData(`/room/${room}`);
@@ -43,7 +52,8 @@ const Playground = () => {
       if (!roomInfo.name) return navigate("/dashboard");
       dispatch(setLanguage(roomInfo.language));
       dispatch(setRoomName(roomInfo.name));
-      dispatch(setEditorValue(roomInfo.code));
+      await sleep(3000);
+      if (!editorState.value) dispatch(setEditorValue(roomInfo.code));
     };
 
     getRoomInfo();
