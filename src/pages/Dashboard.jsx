@@ -229,8 +229,8 @@ const Dashboard = () => {
         <div className="container flex flex-col space-y-4">
           ​
           {playgrounds.map((playground) => (
-            <Link
-              to={`/playground?room=${playground.name}`}
+            <a
+              href={`/playground?room=${playground.name}`}
               key={playground.roomId}
               className="text-white border-[1px] border-solid border-gray-700 flex px-5 py-3 rounded-lg justify-between items-center cursor-pointer hover:border-blue-400"
             >
@@ -252,7 +252,7 @@ const Dashboard = () => {
                   Delete
                 </button>
               </div>
-            </Link>
+            </a>
           ))}
           ​
         </div>
